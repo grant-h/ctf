@@ -4,10 +4,10 @@ Includes some interesting usage of Angr in order to choose correct paths for exe
 This was written after the competion for practice.
 
 ## Problem Statement
-*Category:* Binary
-*Points:* 400
-*Solves:* 34
-*Description:* ropsynth.pwn.seccon.jp:10000 Read "secret" and output the content such as the following code.
+*Category:* Binary<br/>
+*Points:* 400<br/>
+*Solves:* 34<br/>
+*Description:* ropsynth.pwn.seccon.jp:10000 Read "secret" and output the content such as the following code.<br/>
 
 ```
 fd = open("secret", 0, 0);
