@@ -18,7 +18,7 @@ MOV W0, #0
 LDR X1, =0xffffffffc001b000  // EL1 kernel page table
 LDR X2, =0xffffffffc003a000  // VA - any available page
 LDR X3, =0x0060000000000403  // Entry - map at IPA zero
-// alloc_va(0, 0xffffffffc001b000, 0xffffffffc003a000, 0x006000000003a403)
+// alloc_va(0, 0xffffffffc001b000, 0xffffffffc003a000, 0x0060000000000403)
 BLR X22
 
 NOP // padding
